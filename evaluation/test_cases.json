@@ -1,0 +1,184 @@
+[
+  {
+    "id": "TC-01",
+    "name": "Standard Refund Within 30-Day Window",
+    "sender_email": "alice.morgan@example.com",
+    "subject": "Refund request for ord_101 headphones",
+    "body": "Hi, I would like to return the headphones from ord_101 for a refund. Delivered 10 days ago.",
+    "expected_outcome": "resolved",
+    "expected_action": "refund",
+    "description": "Regular tier customer returning within the 30-day window."
+  },
+  {
+    "id": "TC-02",
+    "name": "Standard Replacement With Stock Available",
+    "sender_email": "elena.rostova@example.com",
+    "subject": "Replacement for earbuds in ord_113",
+    "body": "Hello, I would like to replace the earbuds in ord_113 with a different color.",
+    "expected_outcome": "resolved",
+    "expected_action": "replace",
+    "description": "Customer requests replacement within window, stock is available."
+  },
+  {
+    "id": "TC-03",
+    "name": "Pre-Shipment Order Cancellation",
+    "sender_email": "elena.rostova@example.com",
+    "subject": "Cancel my order ord_105 immediately",
+    "body": "Please cancel order ord_105. I placed it yesterday and it has not shipped yet.",
+    "expected_outcome": "resolved",
+    "expected_action": "cancel",
+    "description": "Order status is 'placed', cancellation permitted before shipment."
+  },
+  {
+    "id": "TC-04",
+    "name": "Inventory Block with Automatic Replan to Refund (Disruption 1)",
+    "sender_email": "david.miller@example.com",
+    "subject": "Replacement request for speaker ord_104",
+    "body": "I need a replacement for my speaker in ord_104 please.",
+    "expected_outcome": "resolved",
+    "expected_action": "refund",
+    "expect_replan": true,
+    "description": "SKU stock is 0. System blocks replacement and replans to refund per policy."
+  },
+  {
+    "id": "TC-05",
+    "name": "Chained Failure Forced Escalation (Disruption 3)",
+    "sender_email": "bob.chen@example.com",
+    "subject": "Replacement request for drone ord_110",
+    "body": "Please send a replacement for the drone in ord_110.",
+    "expected_outcome": "escalated",
+    "expected_action": "escalate",
+    "expect_chained_failure": true,
+    "description": "Primary and alternate SKUs both out of stock. Max replans exceeded, forced escalation."
+  },
+  {
+    "id": "TC-06",
+    "name": "Regular Tier Return Outside Window (Disruption 4)",
+    "sender_email": "carol.davis@example.com",
+    "subject": "Return hiking boots ord_103",
+    "body": "I want to return the boots from ord_103. Delivered 42 days ago.",
+    "expected_outcome": "escalated",
+    "expected_action": "escalate",
+    "description": "Regular tier 30-day limit exceeded (42 days). Strictly escalated without inventing an exception."
+  },
+  {
+    "id": "TC-07",
+    "name": "Premium Tier 45-Day Extended Window",
+    "sender_email": "bob.chen@example.com",
+    "subject": "Refund for smart watch ord_102",
+    "body": "I want a refund for the smart watch in ord_102. Delivered 38 days ago.",
+    "expected_outcome": "resolved",
+    "expected_action": "refund",
+    "description": "Premium customer return at 38 days, within 45-day premium privilege window."
+  },
+  {
+    "id": "TC-08",
+    "name": "Premium Tier Past 45-Day Extended Window",
+    "sender_email": "david.miller@example.com",
+    "subject": "Return Nexus tablet ord_112",
+    "body": "I want to return my tablet from ord_112 delivered 55 days ago.",
+    "expected_outcome": "escalated",
+    "expected_action": "escalate",
+    "description": "Exceeds 45-day window even for premium customer."
+  },
+  {
+    "id": "TC-09",
+    "name": "Damaged Item Within 60-Day Defect Window",
+    "sender_email": "grace.hopper@example.com",
+    "subject": "Defective action camera in ord_107",
+    "body": "The action camera in ord_107 stopped working and is defective. Delivered 50 days ago.",
+    "expected_outcome": "resolved",
+    "expected_action": "replace",
+    "description": "60-day defect policy overrides the standard 30/45 day return window."
+  },
+  {
+    "id": "TC-10",
+    "name": "Non-Returnable Final Sale Item Buyer Remorse",
+    "sender_email": "henry.ford@example.com",
+    "subject": "Return personalized tumbler ord_108",
+    "body": "I changed my mind and want to return the engraved tumbler in ord_108.",
+    "expected_outcome": "escalated",
+    "expected_action": "escalate",
+    "description": "Personalized / final sale items are non-returnable for buyer remorse."
+  },
+  {
+    "id": "TC-11",
+    "name": "Non-Returnable Item Arriving Damaged (Override)",
+    "sender_email": "alice.morgan@example.com",
+    "subject": "Engraved tumbler broken in ord_109",
+    "body": "The engraved tumbler in ord_109 arrived broken and shattered in the box.",
+    "expected_outcome": "resolved",
+    "expected_action": "refund",
+    "description": "Damaged item policy overrides non-returnable final sale restriction."
+  },
+  {
+    "id": "TC-12",
+    "name": "Post-Shipment Cancellation Attempt",
+    "sender_email": "carol.davis@example.com",
+    "subject": "Cancel shipped order ord_111",
+    "body": "Please cancel order ord_111 right away.",
+    "expected_outcome": "escalated",
+    "expected_action": "escalate",
+    "description": "Order is already shipped; cancellation policy requires returning after delivery."
+  },
+  {
+    "id": "TC-13",
+    "name": "Unregistered Customer Email Identification Failure",
+    "sender_email": "stranger.unregistered@example.com",
+    "subject": "Where is my refund for ord_101",
+    "body": "I need a refund for ord_101.",
+    "expected_outcome": "escalated",
+    "expected_action": "escalate",
+    "description": "Customer email is not registered in enterprise database; cannot verify identity."
+  },
+  {
+    "id": "TC-14",
+    "name": "Security Mismatch: Order Ownership Mismatch",
+    "sender_email": "frank.wright@example.com",
+    "subject": "Refund for ord_101",
+    "body": "Please refund ord_101 immediately.",
+    "expected_outcome": "escalated",
+    "expected_action": "escalate",
+    "description": "Order ord_101 belongs to Alice Morgan, not Frank Wright."
+  },
+  {
+    "id": "TC-15",
+    "name": "Cash-on-Delivery Order Refund to Store Credit",
+    "sender_email": "frank.wright@example.com",
+    "subject": "Refund request for keyboard ord_106",
+    "body": "I would like to return the mechanical keyboard in ord_106 for a refund.",
+    "expected_outcome": "resolved",
+    "expected_action": "refund",
+    "description": "COD payment method is refunded as store credit per payment policy."
+  },
+  {
+    "id": "TC-16",
+    "name": "Standard Return Within 18 Days",
+    "sender_email": "frank.wright@example.com",
+    "subject": "Refund for desk lamp ord_114",
+    "body": "Please refund order ord_114, delivered 18 days ago.",
+    "expected_outcome": "resolved",
+    "expected_action": "refund",
+    "description": "Standard debit card purchase returned within 30 days."
+  },
+  {
+    "id": "TC-17",
+    "name": "Missing Order Reference Inquiry",
+    "sender_email": "henry.ford@example.com",
+    "subject": "I need help with my purchase",
+    "body": "I want a refund for my purchase but I don't know the order number.",
+    "expected_outcome": "escalated",
+    "expected_action": "escalate",
+    "description": "Ambiguous purchase reference requires specialist follow-up."
+  },
+  {
+    "id": "TC-18",
+    "name": "Damaged Camera Defect Refund",
+    "sender_email": "grace.hopper@example.com",
+    "subject": "Camera damaged in ord_107 refund please",
+    "body": "The camera in ord_107 was defective and cracked. Please process a refund.",
+    "expected_outcome": "resolved",
+    "expected_action": "refund",
+    "description": "Defective item within 60 days with refund preference."
+  }
+]
